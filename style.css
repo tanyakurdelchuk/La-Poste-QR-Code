@@ -96,4 +96,14 @@ body {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+/* html5-qrcode video fix */
+#reader video {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* popups MUST be above camera */
+.popup {
+    z-index: 9999 !important;
+}
 
