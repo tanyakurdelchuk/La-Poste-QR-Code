@@ -39,7 +39,7 @@ function startQr() {
     // force slow scan (10s)
     setTimeout(() => {
         if (scanning) {
-            finishScan("adress1"); // тест
+            finishScan("address1"); // тест
         }
     }, 10000);
 }
