@@ -4,18 +4,23 @@ const scanLine = document.getElementById("scanLine");
 const loadingPopup = document.getElementById("loadingPopup");
 const resultPopup = document.getElementById("resultPopup");
 
-let html5QrCode;
+let html5QrCode = null;
 let isScanning = false;
 
-// Кнопка
+// =========================
+// КНОПКА "СКАНУВАТИ"
+// =========================
 scanBtn.addEventListener("click", () => {
     if (isScanning) return;
+
     isScanning = true;
-    startScanner();
     startLine();
+    startScanner();
 });
 
-// Лінія
+// =========================
+// АНІМАЦІЯ ЛІНІЇ
+// =========================
 function startLine() {
     scanLine.style.opacity = "1";
     scanLine.style.animation = "scan 2s linear infinite";
@@ -26,52 +31,81 @@ function stopLine() {
     scanLine.style.animation = "none";
 }
 
-// QR
+// =========================
+// QR СКАНЕР
+// =========================
 function startScanner() {
     html5QrCode = new Html5Qrcode("reader");
 
     html5QrCode.start(
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
-        (text) => {
-            onQrFound(text);
-        }
+        (decodedText) => {
+            onQrFound(decodedText);
+        },
+        () => {}
     );
 }
 
-// QR знайдено
+// =========================
+// КОЛИ QR ЗНАЙДЕНО
+// =========================
 function onQrFound(result) {
     if (!isScanning) return;
     isScanning = false;
 
+    // 1️⃣ Зупиняємо лінію
     stopLine();
-    html5QrCode.stop().catch(() => {});
 
-    // ✅ ПОКАЗУЄМО LOADING
+    // 2️⃣ ПОКАЗУЄМО LOADER
     loadingPopup.classList.remove("hidden");
 
-    // ⏳ ІМІТАЦІЯ ЗАВАНТАЖЕННЯ
-    setTimeout(() => {
-        loadingPopup.classList.add("hidden");
-        resultPopup.classList.remove("hidden");
-        console.log("QR:", result);
-    }, 3000);
+    // 3️⃣ ДАЄМО БРАУЗЕРУ ВІДМАЛЮВАТИ UI
+    requestAnimationFrame(() => {
+
+        // 4️⃣ ІМІТАЦІЯ ЗАВАНТАЖЕННЯ
+        setTimeout(async () => {
+
+            // 5️⃣ ТІЛЬКИ ТЕПЕР ЗУПИНЯЄМО КАМЕРУ
+            try {
+                if (html5QrCode) {
+                    await html5QrCode.stop();
+                    html5QrCode.clear();
+                }
+            } catch (e) {
+                console.warn("Camera stop error", e);
+            }
+
+            // 6️⃣ ПЕРЕХІД ДО РЕЗУЛЬТАТУ
+            loadingPopup.classList.add("hidden");
+            resultPopup.classList.remove("hidden");
+
+            console.log("QR результат:", result);
+
+        }, 3000);
+
+    });
 }
 
-// Кнопки
+// =========================
+// КНОПКИ POPUP
+// =========================
 document.getElementById("continueBtn").onclick = () => {
     resultPopup.classList.add("hidden");
 };
 
 document.getElementById("listBtn").onclick = () => {
-    alert("Список буде реалізовано пізніше");
+    alert("Сторінка списку буде реалізована окремо");
 };
 
-// Анімація лінії
+// =========================
+// KEYFRAMES ДЛЯ ЛІНІЇ
+// =========================
 const style = document.createElement("style");
 style.innerHTML = `
 @keyframes scan {
     0% { top: 0; }
     100% { top: 100%; }
-}`;
+}
+`;
 document.head.appendChild(style);
