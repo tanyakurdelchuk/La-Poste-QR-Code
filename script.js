@@ -1,4 +1,4 @@
-const scanBtn = document.getElementById("scanBtn");
+ivconst scanBtn = document.getElementById("scanBtn");
 const scanLine = document.getElementById("scanLine");
 const popup = document.getElementById("popup");
 
@@ -58,7 +58,7 @@ function finishScan(result) {
 
 // Додаємо до списку (JSON)
 async function addToList(id) {
-    const res = await fetch("data.json");
+    const res = await fetch("delivery.json");
     const data = await res.json();
     const found = data.find(item => item.id === id);
     console.log("Пакунок:", found);
