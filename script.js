@@ -1,67 +1,84 @@
-const video = document.getElementById("video");
 const scanBtn = document.getElementById("scanBtn");
 const scanLine = document.getElementById("scanLine");
 const popup = document.getElementById("popup");
 
-// Камера
-navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "environment" }
-})
-.then(stream => {
-    video.srcObject = stream;
-})
-.catch(err => {
-    alert("Не вдалося отримати доступ до камери");
-});
+let html5QrCode;
+let scanning = false;
 
-// Кнопка сканування
+// Start scanning on button click
 scanBtn.addEventListener("click", () => {
-    startScan();
+    if (scanning) return;
+
+    scanning = true;
+    startAnimation();
+    startQr();
 });
 
-function startScan() {
+function startAnimation() {
     scanLine.style.opacity = 1;
     scanLine.style.animation = "scan 10s linear";
+}
 
-    // Імітація повільного сканування (10 сек)
+function stopAnimation() {
+    scanLine.style.opacity = 0;
+    scanLine.style.animation = "none";
+}
+
+function startQr() {
+    html5QrCode = new Html5Qrcode("reader");
+
+    html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (decodedText) => {
+            console.log("QR:", decodedText);
+            finishScan(decodedText);
+        }
+    );
+
+    // force slow scan (10s)
     setTimeout(() => {
-        scanLine.style.opacity = 0;
-        scanLine.style.animation = "none";
-        popup.classList.remove("hidden");
-
-        // ТУТ буде реальне зчитування QR
-        // result = "adress1"
-
-        const scannedId = "adress1";
-        addToList(scannedId);
-
+        if (scanning) {
+            finishScan("adress1"); // тест
+        }
     }, 10000);
 }
 
-// Анімація
-const style = document.createElement("style");
-style.innerHTML = `
-@keyframes scan {
-    0% { top: 0; }
-    100% { top: 100%; }
-}
-`;
-document.head.appendChild(style);
+function finishScan(result) {
+    scanning = false;
 
-// Робота з JSON
+    html5QrCode.stop().catch(() => {});
+    stopAnimation();
+
+    console.log("Результат:", result);
+    popup.classList.remove("hidden");
+
+    addToList(result);
+}
+
+// JSON logic
 async function addToList(id) {
     const res = await fetch("data.json");
     const data = await res.json();
 
     const found = data.find(item => item.id === id);
-    console.log("Знайдено пакунок:", found);
+    console.log("Пакунок:", found);
 }
 
-// Кнопки popup
+// Popup buttons
 document.getElementById("continueBtn").onclick = () => {
     popup.classList.add("hidden");
 };
 
 document.getElementById("listBtn").onclick = () => {
-    alert("Перехід до сторінки списку");
+    alert("Тут буде сторінка списку");
 };
+
+// Animation
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}`;
+document.head.appendChild(style);
