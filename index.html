@@ -2,8 +2,12 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=412, height=914, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Scanner</title>
+
+    <!-- QR library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,11 +15,13 @@
 <div class="app">
 
     <div class="scanner-box">
-        <video id="video" autoplay playsinline></video>
+        <div id="reader"></div>
         <div class="scan-line" id="scanLine"></div>
     </div>
 
-    <button id="scanBtn" class="scan-btn">Сканувати</button>
+    <button id="scanBtn" class="scan-btn">
+        Сканувати
+    </button>
 
 </div>
 
@@ -23,6 +29,7 @@
 <div class="popup hidden" id="popup">
     <div class="popup-content">
         <h2>Сканування завершено</h2>
+
         <div class="popup-buttons">
             <button id="continueBtn">Продовжити</button>
             <button id="listBtn">Перейти до списку</button>
