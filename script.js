@@ -1,17 +1,25 @@
-ivconst scanBtn = document.getElementById("scanBtn");
+const scanBtn = document.getElementById("scanBtn");
 const scanLine = document.getElementById("scanLine");
 const popup = document.getElementById("popup");
 
 let scanning = false;
 let html5QrCode;
+let lastResult = null; // тут зберігатимемо останній QR
+let scanTimeout;
 
 // Кнопка “Сканувати”
 scanBtn.addEventListener("click", async () => {
     if (scanning) return;
     scanning = true;
+    lastResult = null;
 
     startAnimation();
     await startQr();
+
+    // 10 секунд “повільного” сканування
+    scanTimeout = setTimeout(() => {
+        finishScan(lastResult || "adress1"); // якщо нічого не зчиталось — тестовий ID
+    }, 10000);
 });
 
 // Анімація лінії
@@ -33,32 +41,31 @@ async function startQr() {
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
         (decodedText) => {
-            finishScan(decodedText);
+            // зберігаємо останній знайдений QR, не викликаємо finishScan відразу
+            lastResult = decodedText;
+            console.log("QR зафіксовано, чекаємо таймер:", decodedText);
         }
     );
-
-    // Фіктивний 10-секундний таймаут для “повільного сканування”
-    setTimeout(() => {
-        if (scanning) {
-            finishScan("adress1"); // тестовий ID
-        }
-    }, 10000);
 }
 
+// Завершення сканування після таймера
 function finishScan(result) {
+    if (!scanning) return;
     scanning = false;
+    clearTimeout(scanTimeout);
+
     html5QrCode.stop().catch(() => {});
     stopAnimation();
 
-    console.log("Зчитано:", result);
+    console.log("Сканування завершено, результат:", result);
     popup.classList.remove("hidden");
 
     addToList(result);
 }
 
-// Додаємо до списку (JSON)
+// JSON логіка
 async function addToList(id) {
-    const res = await fetch("delivery.json");
+    const res = await fetch("data.json");
     const data = await res.json();
     const found = data.find(item => item.id === id);
     console.log("Пакунок:", found);
