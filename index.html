@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Scanner</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Scanner</title>
 
-    <!-- QR library -->
-    <script src="https://unpkg.com/html5-qrcode"></script>
+<!-- Бібліотека для сканування QR -->
+<script src="https://unpkg.com/html5-qrcode"></script>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="app">
-
     <div class="scanner-box">
         <div id="reader"></div>
         <div class="scan-line" id="scanLine"></div>
     </div>
-
-    <button id="scanBtn" class="scan-btn">
-        Сканувати
-    </button>
-
+    <button id="scanBtn" class="scan-btn">Сканувати</button>
 </div>
 
-<!-- POPUP -->
 <div class="popup hidden" id="popup">
     <div class="popup-content">
         <h2>Сканування завершено</h2>
-
         <div class="popup-buttons">
             <button id="continueBtn">Продовжити</button>
             <button id="listBtn">Перейти до списку</button>
