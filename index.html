@@ -20,7 +20,16 @@
     <button id="scanBtn" class="scan-btn">Сканувати</button>
 </div>
 
-<div class="popup hidden" id="popup">
+<!-- LOADING POPUP -->
+<div class="popup hidden" id="loadingPopup">
+    <div class="popup-content">
+        <h2>Обробка пакунку…</h2>
+        <div class="loader"></div>
+    </div>
+</div>
+
+<!-- RESULT POPUP -->
+<div class="popup hidden" id="resultPopup">
     <div class="popup-content">
         <h2>Сканування завершено</h2>
         <div class="popup-buttons">
