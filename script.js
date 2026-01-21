@@ -65,7 +65,7 @@ function finishScan(result) {
 
 // JSON логіка
 async function addToList(id) {
-    const res = await fetch("data.json");
+    const res = await fetch("delivery.json");
     const data = await res.json();
     const found = data.find(item => item.id === id);
     console.log("Пакунок:", found);
