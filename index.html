@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=412, height=914, initial-scale=1.0">
+    <title>QR Scanner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <div class="scanner-box">
+        <video id="video" autoplay playsinline></video>
+        <div class="scan-line" id="scanLine"></div>
+    </div>
+
+    <button id="scanBtn" class="scan-btn">Сканувати</button>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup hidden" id="popup">
+    <div class="popup-content">
+        <h2>Сканування завершено</h2>
+        <div class="popup-buttons">
+            <button id="continueBtn">Продовжити</button>
+            <button id="listBtn">Перейти до списку</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
