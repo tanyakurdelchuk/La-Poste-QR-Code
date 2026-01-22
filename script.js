@@ -82,7 +82,7 @@ function onQrFound(result) {
 
             console.log("QR результат:", result);
 
-        }, 3000);
+        }, 10000);
 
     });
 }
