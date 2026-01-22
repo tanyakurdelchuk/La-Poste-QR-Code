@@ -19,7 +19,7 @@ body {
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    margin-top: 200px;
+    margin-top: 120px;
 }
 
 #reader {
@@ -40,7 +40,7 @@ body {
 .scan-btn {
     margin-top: 20px;
     padding: 16px;
-    width: 90%;
+    width: 100%;
     font-size: 18px;
     border: none;
     border-radius: 12px;
@@ -68,7 +68,7 @@ body {
 .popup-content {
     background: white;
     padding: 20px;
-    width: 90%;
+    width: 50%;
     border-radius: 12px;
     text-align: center;
 }
@@ -111,4 +111,27 @@ body {
 /* popups MUST be above camera */
 .popup {
     z-index: 9999 !important;
+    
+}
+
+#continueBtn {
+    background: #ffcf19;
+    color: white;
+    font-size: 18px;
+}
+
+#listBtn {
+    background: #ffcf19;
+    color: white;
+    font-size: 18px;
+}
+
+#continueBtn:hover {
+    background: #124db3;
+    color: white;
+}
+
+#listBtn:hover {
+    background: #124db3;
+    color: white;
 }
