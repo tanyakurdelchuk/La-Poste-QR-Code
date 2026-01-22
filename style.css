@@ -117,13 +117,13 @@ body {
 #continueBtn {
     background: #ffcf19;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 #listBtn {
     background: #ffcf19;
     color: white;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 #continueBtn:hover {
